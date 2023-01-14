@@ -17,15 +17,15 @@ const User = mongoose.model(
   new mongoose.Schema({
     first_name: String,
     last_name: String,
-    book: bookSchema,
+    books: [bookSchema],
   })
 );
 
-async function createUser(first_name, last_name, book_id) {
+async function createUser(first_name, last_name, book) {
   const user = new User({
     first_name,
     last_name,
-    book: book_id,
+    books: book,
   });
   const result = await user.save();
   console.log(result);
@@ -48,4 +48,9 @@ async function updateUser(userId) {
 //   new Book({ title: "Node.js programming", pages: 100 })
 // );
 // getUsers();
-updateUser("63c30afa76e4802c3d4424bf");
+// updateUser("63c30afa76e4802c3d4424bf");
+createUser('test00','test333', [
+  new Book({title:'Vue.js',pages:200}),
+  new Book({title:'Angular',pages:250}),
+  new Book({title:'JavaScript',pages:300}),
+])
