@@ -42,6 +42,19 @@ async function updateUser(userId) {
   await user.save();
 }
 
+async function addBook(userId, book) {
+  const user = await User.findById(userId);
+  user.books.push(book);
+  await user.save();
+}
+
+async function removeBook(userId,bookId){
+  const user= await User.findById(userId);
+  const book= user.books.id(bookId);
+  book.remove();
+  await user.save();
+}
+
 // createUser(
 //   "test",
 //   "test123",
@@ -49,8 +62,11 @@ async function updateUser(userId) {
 // );
 // getUsers();
 // updateUser("63c30afa76e4802c3d4424bf");
-createUser('test00','test333', [
-  new Book({title:'Vue.js',pages:200}),
-  new Book({title:'Angular',pages:250}),
-  new Book({title:'JavaScript',pages:300}),
-])
+// createUser('test00','test333', [
+//   new Book({title:'Vue.js',pages:200}),
+//   new Book({title:'Angular',pages:250}),
+//   new Book({title:'JavaScript',pages:300}),
+// ])
+// addBook('63c30c81c2624496387f0ff6', new Book({title:'mongodb',pages:150}));
+
+removeBook('63c30c81c2624496387f0ff6','63c30d9da1a28229dcd092db');
