@@ -5,23 +5,19 @@ mongoose
   .then(() => console.log("connected to mongodb"))
   .catch(() => console.log("could not connect to mongodb"));
 
-const Book = mongoose.model(
-  "Book",
-  new mongoose.Schema({
-    title: String,
-    pages: Number,
-  })
-);
+const bookSchema = new mongoose.Schema({
+  title: String,
+  pages: Number,
+});
+
+const Book = mongoose.model("Book", bookSchema);
 
 const User = mongoose.model(
   "User",
   new mongoose.Schema({
     first_name: String,
     last_name: String,
-    book: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Book",
-    },
+    book: bookSchema,
   })
 );
 
@@ -35,20 +31,14 @@ async function createUser(first_name, last_name, book_id) {
   console.log(result);
 }
 
-async function createBook(title, pages) {
-  const book = new Book({
-    title,
-    pages,
-  });
-  const result = await book.save();
-  console.log(result);
-}
-
 async function getUsers() {
-  const users = await User.find().populate('book','title pages -_id');
+  const users = await User.find();
   console.log(users);
 }
 
-// createBook("Node.js programming", 100);
-// createUser('test','test123','63c2ee5d82dd03e223cdeb6a');
-getUsers();
+createUser(
+  "test",
+  "test123",
+  new Book({ title: "Node.js programming", pages: 100 })
+);
+// getUsers();
