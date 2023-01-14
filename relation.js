@@ -36,9 +36,16 @@ async function getUsers() {
   console.log(users);
 }
 
-createUser(
-  "test",
-  "test123",
-  new Book({ title: "Node.js programming", pages: 100 })
-);
+async function updateUser(userId) {
+  const user = await User.findById(userId);
+  user.book.title = "React programming";
+  await user.save();
+}
+
+// createUser(
+//   "test",
+//   "test123",
+//   new Book({ title: "Node.js programming", pages: 100 })
+// );
 // getUsers();
+updateUser("63c30afa76e4802c3d4424bf");
